@@ -905,15 +905,6 @@ async function handleSubmit(){
   params.append('Timestamp',  new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}));
 
   try{
-<<<<<<< HEAD
-    // no-cors + no explicit Content-Type header = prevents Google redirect to GET
-    await fetch(SHEET_URL, {
-      method: 'POST',
-      mode:   'no-cors',
-      body:   params.toString()
-    });
-
-=======
     const res = await fetch(SHEET_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
@@ -923,7 +914,6 @@ async function handleSubmit(){
     let result = {};
     try { result = await res.json(); } catch(_) { /* non-JSON response */ }
 
->>>>>>> e181ef143d9e5b6143b30f9628fad01fe93820d1
     document.getElementById('loadingOverlay').classList.remove('show');
 
     // Show success (optimistic — data is in the sheet)
