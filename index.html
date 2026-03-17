@@ -645,7 +645,7 @@ select.field-input option{background:#0a0e14;color:#00ff9d;}
 /* ══════════════════════════════════════
    CONFIG — ⚠ REPLACE WITH YOUR URL ⚠
 ══════════════════════════════════════ */
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwTUh1kBSFwpwqtgRIgs4nq6WWEvg6ASVtTVDymZO46_4GyvvLbxYLnJ1YMjjsw7xfIug/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycby_X76d0tEQUVbp99mCUjTxketu9fvo6pu5yXA7tDwFDL3aAk9JuKFCXs7Kqpt0CDBR/exec';
 
 /* ══════════════════════════════════════
    TYPING ANIMATION
@@ -905,6 +905,7 @@ async function handleSubmit(){
   params.append('Timestamp',  new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}));
 
   try{
+<<<<<<< HEAD
     // no-cors + no explicit Content-Type header = prevents Google redirect to GET
     await fetch(SHEET_URL, {
       method: 'POST',
@@ -912,6 +913,17 @@ async function handleSubmit(){
       body:   params.toString()
     });
 
+=======
+    const res = await fetch(SHEET_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+
+    let result = {};
+    try { result = await res.json(); } catch(_) { /* non-JSON response */ }
+
+>>>>>>> e181ef143d9e5b6143b30f9628fad01fe93820d1
     document.getElementById('loadingOverlay').classList.remove('show');
 
     // Show success (optimistic — data is in the sheet)
