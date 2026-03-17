@@ -383,7 +383,7 @@ select.field-input option{background:#0a0e14;color:#00ff9d;}
 
   <!-- ── HEADER ── -->
   <div class="header">
-    <img src="/Anonymous_logo.png" alt="ANONYMOUS" class="logo"/>
+    <img src="Anonymous_logo.png" alt="ANONYMOUS" class="logo"/>
     <div class="club-tag">&#9670; ANONYMOUS PRESENTS &#9670;</div>
     <div class="title">KALI LINUX WORKSHOP</div>
     <div class="subtitle">Ethical Hacking &nbsp;·&nbsp; Cybersecurity 101</div>
@@ -405,7 +405,7 @@ select.field-input option{background:#0a0e14;color:#00ff9d;}
     </div>
     <div class="info-card">
       <span class="info-icon">⏰</span>
-      <div class="info-val">2:00 PM</div>
+      <div class="info-val">9:00 AM</div>
       <div class="info-lbl">Starts At</div>
     </div>
   </div>
@@ -877,32 +877,29 @@ function launchConfetti(){
 
 /* ══════════════════════════════════════
    MAIN SUBMIT — Google Sheets via
-   Apps Script (FormData + no-cors)
-   Works from localhost AND hosted domains.
-   no-cors = can't read response, so we
-   show success optimistically after send.
+   Apps Script Web App (POST JSON)
 ══════════════════════════════════════ */
 async function handleSubmit(){
   const btn=document.getElementById('submitBtn');
   btn.disabled=true;
+
+  // Show loading overlay
   document.getElementById('loadingOverlay').classList.add('show');
 
-  const name  = document.getElementById('fname').value.trim();
-
-  // URLSearchParams — Apps Script reads reliably as e.parameter
-  const params = new URLSearchParams();
-  params.append('Name',       name);
-  params.append('RollNo',     document.getElementById('rollno').value.trim());
-  params.append('Email',      document.getElementById('email').value.trim());
-  params.append('Department', document.getElementById('dept').value);
-  params.append('Year',       document.getElementById('year').value);
-  params.append('Phone',      document.getElementById('phone').value.trim());
-  params.append('Experience', document.getElementById('level').value||'Not specified');
-  params.append('Club',       'ANONYMOUS');
-  params.append('Event',      'Kali Linux Workshop');
-  params.append('Venue',      'Main Seminar Hall');
-  params.append('Date',       'March 27, 2026');
-  params.append('Timestamp',  new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}));
+  const payload={
+    Name:     document.getElementById('fname').value.trim(),
+    RollNo:   document.getElementById('rollno').value.trim(),
+    Email:    document.getElementById('email').value.trim(),
+    Department:document.getElementById('dept').value,
+    Year:     document.getElementById('year').value,
+    Phone:    document.getElementById('phone').value.trim(),
+    Experience:document.getElementById('level').value||'Not specified',
+    Club:     'ANONYMOUS',
+    Event:    'Kali Linux Workshop',
+    Venue:    'Main Seminar Hall',
+    Date:     'March 27, 2026',
+    Timestamp:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})
+  };
 
   try{
     const res = await fetch(SHEET_URL, {
@@ -916,20 +913,29 @@ async function handleSubmit(){
 
     document.getElementById('loadingOverlay').classList.remove('show');
 
-    // Show success (optimistic — data is in the sheet)
+    // Duplicate check
+    if(result.status==='duplicate'){
+      btn.disabled=false;
+      showToast('⚠ You have already registered!',true);
+      return;
+    }
+
+    // ── SUCCESS ──
     document.getElementById('formCard').style.display='none';
-    const ss = document.getElementById('successScreen');
-    ss.style.display = 'block';
-    document.getElementById('successName').textContent = name.toUpperCase();
-    document.getElementById('regId').textContent =
-      'REG-ID: ANO-' + Date.now().toString(36).toUpperCase();
+    const ss=document.getElementById('successScreen');
+    ss.style.display='block';
+    document.getElementById('successName').textContent=payload.Name.toUpperCase();
+    document.getElementById('regId').textContent=
+      result.regID
+        ? `REG-ID: ${result.regID}${result.seatStatus?' · '+result.seatStatus:''}`
+        : `REG-ID: ANO-${Date.now().toString(36).toUpperCase()}`;
     launchConfetti();
     window.scrollTo({top:0,behavior:'smooth'});
 
   }catch(e){
     document.getElementById('loadingOverlay').classList.remove('show');
-    btn.disabled = false;
-    showToast('\u26a0 Connection failed. Check your internet and try again.',true);
+    btn.disabled=false;
+    showToast('⚠ Connection failed. Please try again.',true);
     console.error('Submit error:',e);
   }
 }
