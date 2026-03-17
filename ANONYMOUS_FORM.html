@@ -32,7 +32,7 @@
 
   .header{text-align:center;margin-bottom:1.8rem;animation:fadeDown 0.8s ease forwards;}
   .anon-mask{width:85px;height:85px;margin:0 auto 1rem;animation:maskReveal 1s ease forwards;filter:drop-shadow(0 0 14px rgba(0,255,157,0.5));}
-  .club-tag{font-family:'Orbitron',monospace;font-size:0.62rem;font-weight:700;letter-spacing:6px;color:rgba(0,255,157,0.4);text-transform:uppercase;margin-bottom:0.3rem;}
+  .club-tag{font-family:'Orbitron',monospace;font-size:0.62rem;font-weight:700;letter-spacing:6px;color:#ffffffd6;text-transform:uppercase;margin-bottom:0.3rem;}
   .title{font-family:'Orbitron',monospace;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;color:#00ff9d;letter-spacing:3px;animation:glitch 3s ease-in-out infinite;line-height:1.2;}
   .subtitle{font-family:'Rajdhani',sans-serif;font-size:0.9rem;color:rgba(0,255,157,0.4);letter-spacing:3px;text-transform:uppercase;margin-top:0.3rem;}
   .anon-quote{font-size:0.7rem;color:rgba(0,255,157,0.28);margin-top:0.6rem;font-style:italic;animation:flicker 4s ease-in-out infinite;}
@@ -102,6 +102,13 @@
   .success-badge{background:rgba(0,255,157,0.06);border:1px solid rgba(0,255,157,0.18);border-radius:6px;padding:0.5rem 1rem;font-size:0.72rem;color:rgba(0,255,157,0.5);}
   .success-id{display:inline-block;margin-top:1.5rem;padding:0.5rem 1.5rem;border:1px solid rgba(0,255,157,0.22);border-radius:6px;font-size:0.72rem;color:rgba(0,255,157,0.4);letter-spacing:2px;}
   .confetti-piece{position:fixed;width:8px;height:8px;pointer-events:none;z-index:9999;animation:confettiFall linear forwards;}
+
+  #logo {
+    width: 100px;   /* perfect for desktop */
+    max-width: 30%; /* scales on smaller screens */
+    height: auto;
+    /* margin-bottom: 5px; */
+}
 </style>
 </head>
 <body>
@@ -111,19 +118,9 @@
 <div class="container">
 
   <div class="header">
-    <svg class="anon-mask" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="50" cy="52" rx="38" ry="42" fill="none" stroke="#00ff9d" stroke-width="2"/>
-      <ellipse cx="50" cy="48" rx="28" ry="26" fill="rgba(0,255,157,0.06)" stroke="#00ff9d" stroke-width="1.5"/>
-      <ellipse cx="36" cy="43" rx="8" ry="6" fill="rgba(0,255,157,0.08)" stroke="#00ff9d" stroke-width="1.5"/>
-      <ellipse cx="64" cy="43" rx="8" ry="6" fill="rgba(0,255,157,0.08)" stroke="#00ff9d" stroke-width="1.5"/>
-      <path d="M38 62 Q50 70 62 62" fill="none" stroke="#00ff9d" stroke-width="2" stroke-linecap="round"/>
-      <path d="M42 62 Q50 58 58 62" fill="rgba(0,255,157,0.08)" stroke="#00ff9d" stroke-width="1"/>
-      <path d="M25 30 Q32 24 40 28" fill="none" stroke="#00ff9d" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M75 30 Q68 24 60 28" fill="none" stroke="#00ff9d" stroke-width="1.5" stroke-linecap="round"/>
-      <ellipse cx="50" cy="90" rx="22" ry="5" fill="rgba(0,255,157,0.15)" stroke="#00ff9d" stroke-width="1"/>
-      <line x1="36" y1="90" x2="30" y2="100" stroke="#00ff9d" stroke-width="1.5"/>
-      <line x1="64" y1="90" x2="70" y2="100" stroke="#00ff9d" stroke-width="1.5"/>
-    </svg>
+    <div id="container">
+      <img src="/Anonymous_logo.png" alt="Anonymous_logo" id="logo">
+    </div>
     <div class="club-tag">&#9670; ANONYMOUS PRESENTS &#9670;</div>
     <div class="title">KALI LINUX WORKSHOP</div>
     <div class="subtitle">Ethical Hacking &nbsp;·&nbsp; Cybersecurity 101</div>
@@ -366,9 +363,9 @@
       Venue:'Main Seminar Hall',Date:'March 27, 2026',
       Timestamp:new Date().toLocaleString('en-IN')
     };
-    const SHEET_URL='YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+    const SHEET_URL='https://script.google.com/macros/s/AKfycbzRSKdHj3wMyiD3ceK7pW6tCHAW7tcGSgwzEH0TwWlE59ptGJdlYnGSRFQ-WJ4nI8xK/exec';
     try{
-      if(SHEET_URL!=='YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'){
+      if(SHEET_URL!=='https://script.google.com/macros/s/AKfycbzRSKdHj3wMyiD3ceK7pW6tCHAW7tcGSgwzEH0TwWlE59ptGJdlYnGSRFQ-WJ4nI8xK/exec'){
         await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
       } else {
         await new Promise(r=>setTimeout(r,1400));
