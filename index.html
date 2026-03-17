@@ -645,7 +645,7 @@ select.field-input option{background:#0a0e14;color:#00ff9d;}
 /* ══════════════════════════════════════
    CONFIG — ⚠ REPLACE WITH YOUR URL ⚠
 ══════════════════════════════════════ */
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwTUh1kBSFwpwqtgRIgs4nq6WWEvg6ASVtTVDymZO46_4GyvvLbxYLnJ1YMjjsw7xfIug/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycby_X76d0tEQUVbp99mCUjTxketu9fvo6pu5yXA7tDwFDL3aAk9JuKFCXs7Kqpt0CDBR/exec';
 
 /* ══════════════════════════════════════
    TYPING ANIMATION
@@ -902,14 +902,14 @@ async function handleSubmit(){
   };
 
   try{
-    const res=await fetch(SHEET_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
+    const res = await fetch(SHEET_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
     });
 
-    let result={};
-    try{result=await res.json();}catch(_){/* non-JSON response */}
+    let result = {};
+    try { result = await res.json(); } catch(_) { /* non-JSON response */ }
 
     document.getElementById('loadingOverlay').classList.remove('show');
 
